@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
+// https://googleapis.dev/nodejs/google-auth-library/latest/index.html
+// https://github.com/googleapis/google-api-nodejs-client.git
 
-const {GoogleAuth, OAuth2Client,IdTokenClient} = require('google-auth-library');
+// https://github.com/salrashid123/google_id_token.git
 
-const audience = 'https://example.com';
-const url = 'https://httpbin.org/get';
+const {GoogleAuth, OAuth2Client,IdTokenClient} = require('google-auth-library'); 
 
+const audience = 'https://us-central1-servicesdatabase-28d49.cloudfunctions.net/user';
+//const url = 'https://httpbin.org/get';
+const url = "https://us-central1-servicesdatabase-28d49.cloudfunctions.net/user"
 const certs_url='https://www.googleapis.com/oauth2/v1/certs'
 
 
@@ -80,9 +84,11 @@ async function main() {
   
  // const auth = new GoogleAuth();
   const auth = new GoogleAuth({
-    keyFile: '/path/to/svc.json',
+    keyFile: './service_credential_key.json',
   });
 
+
+  // https://googleapis.dev/nodejs/google-auth-library/latest/classes/GoogleAuth.html#getIdTokenClient
   const client = await auth.getIdTokenClient(
     audience
   );
@@ -92,7 +98,7 @@ async function main() {
   });
   console.log(res.data);
 
-  console.log(client.credentials.id_token);
+  console.log("id_token sent to endpoint = " + client.credentials.id_token);
 
   let validated = await verifyGoogleIDToken(client.credentials.id_token,audience,certs_url);
   if (validated) {
