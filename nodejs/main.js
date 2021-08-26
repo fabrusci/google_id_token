@@ -81,10 +81,11 @@ async function verifyIDToken(token, issuer, audience, jwkURL) {
 }
 
 async function main() {
-  
+
  // const auth = new GoogleAuth();
+  var service_credential = require('path').resolve(__dirname,'service_credential_key.json');
   const auth = new GoogleAuth({
-    keyFile: './service_credential_key.json',
+    keyFile: service_credential,
   });
 
 
